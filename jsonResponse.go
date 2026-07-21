@@ -7,7 +7,7 @@ import (
 )
 
 func errResponse(w http.ResponseWriter, code int, msg string){
-	if code > 499{
+	if code < 499{
 		type errStruct struct{
 			Error string `json:"error"`
 		}

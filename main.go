@@ -56,7 +56,8 @@ func main() {
 	v1Router.Get("/ready", handlerReadiness)
 	v1Router.Get("/error", handlerError)
 	v1Router.Post("/users", apiCfg.handlerUser)
-	router.Mount("/v1", v1Router);
+	v1Router.Get("/users", apiCfg.HandlerGetUserByApiKey)
+	router.Mount("/v1", v1Router)
 
 	server := &http.Server{
 		Handler: router,
