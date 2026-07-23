@@ -56,7 +56,12 @@ func main() {
 	v1Router.Get("/ready", handlerReadiness)
 	v1Router.Get("/error", handlerError)
 	v1Router.Post("/users", apiCfg.handlerUser)
-	v1Router.Get("/users", apiCfg.HandlerGetUserByApiKey)
+	v1Router.Get("/users", apiCfg.middlewareAuth(apiCfg.HandlerGetUserByApiKey))
+	v1Router.Post("/feeds", apiCfg.middlewareAuth(apiCfg.handlerCreateFeed))
+	v1Router.Get("/feeds", apiCfg.handlerGetAllFeeds)
+	v1Router.Post("/feedFollow", apiCfg.middlewareAuth(apiCfg.handlerFeedFollow))
+	v1Router.Get("/feedFollows", apiCfg.middlewareAuth(apiCfg.handlerGetFeedFollow))
+	v1Router.Delete("/feedFollow/{feedFollowId}", apiCfg.middlewareAuth(apiCfg.handlerDeleteFeedFollow))
 	router.Mount("/v1", v1Router)
 
 	server := &http.Server{
@@ -67,4 +72,4 @@ func main() {
 	if err != nil{
 		log.Fatal(err)
 	}
-}	
+}
