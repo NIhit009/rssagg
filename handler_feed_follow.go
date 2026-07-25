@@ -11,7 +11,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (apiCfg apiConfig) handlerFeedFollow(w http.ResponseWriter, r *http.Request, user database.User) {
+func (apiCfg *apiConfig) handlerFeedFollow(w http.ResponseWriter, r *http.Request, user database.User) {
 	type feedFollow struct{
 		FeedId uuid.UUID `json:"feed_id"`
 	}
@@ -36,7 +36,7 @@ func (apiCfg apiConfig) handlerFeedFollow(w http.ResponseWriter, r *http.Request
 	jsonResponse(w, 201, databasefeedFollowtoFeedFollow(feedFollows))
 }
 
-func (apiCfg apiConfig) handlerGetFeedFollow(w http.ResponseWriter, r *http.Request, user database.User) {
+func (apiCfg *apiConfig) handlerGetFeedFollow(w http.ResponseWriter, r *http.Request, user database.User) {
 	feed_follows, err := apiCfg.DB.GetFeedFollow(r.Context(), user.ID)
 	if err != nil {
 		errResponse(w, 400, fmt.Sprintf("Error while retreiving the feed follow: %v", err))
@@ -45,7 +45,7 @@ func (apiCfg apiConfig) handlerGetFeedFollow(w http.ResponseWriter, r *http.Requ
 	jsonResponse(w, 200, databasefeedFollowstoFeedFollows(feed_follows))
 }
 
-func (apiCfg apiConfig) handlerDeleteFeedFollow(w http.ResponseWriter, r *http.Request, user database.User) {
+func (apiCfg *apiConfig) handlerDeleteFeedFollow(w http.ResponseWriter, r *http.Request, user database.User) {
 	type result struct{
 		sucess bool
 		message string

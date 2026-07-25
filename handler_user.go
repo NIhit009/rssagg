@@ -37,3 +37,15 @@ func (apiCfg *apiConfig)handlerUser(w http.ResponseWriter, r *http.Request){
 func (apiCfg *apiConfig) HandlerGetUserByApiKey(w http.ResponseWriter, r  *http.Request, user database.User){
 	jsonResponse(w, 200, databaseUserToUser(user))
 }
+
+func (apiCfg *apiConfig) handlerGetPostsForUser(w http.ResponseWriter, r *http.Request, user database.User){
+	posts, err := apiCfg.DB.GetPostsForUser(r.Context(), database.GetPostsForUserParams{
+		UserID: user.ID,
+		Limit: 10,
+	})
+	if err != nil{
+		errResponse(w, 400, fmt.Sprintf("Error occured while fetching posts for user: %v", err))
+		return
+	}
+	jsonResponse(w, 201, databasePoststoPosts(posts))
+}

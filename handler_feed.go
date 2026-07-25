@@ -36,7 +36,7 @@ func (apiCfg *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Reques
 	jsonResponse(w, 201, databaseFeedtoFeed(feed))
 }
 
-func (apiCfg apiConfig) handlerGetAllFeeds(w http.ResponseWriter, r *http.Request){
+func (apiCfg *apiConfig) handlerGetAllFeeds(w http.ResponseWriter, r *http.Request){
 	feeds, err := apiCfg.DB.GetFeeds(r.Context())
 	if err != nil{
 		errResponse(w, 400, fmt.Sprintf("Error while retreving the feeds %v", err))
